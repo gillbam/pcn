@@ -61,8 +61,12 @@ def test(args):
 
         # Calculate center, rotation and scale
         center = (bbox.min(0) + bbox.max(0)) / 2
-        bbox -= center
+        # transform into car coordinates
+        bbox -= center 
+        # re-calculate the yaw 
+        # arctan(w/2 -w/2, l/2 - (-l/2)) = arctan(0, l)
         yaw = np.arctan2(bbox[3, 1] - bbox[0, 1], bbox[3, 0] - bbox[0, 0])
+        
         rotation = np.array([[np.cos(yaw), -np.sin(yaw), 0],
                             [np.sin(yaw), np.cos(yaw), 0],
                             [0, 0, 1]])
